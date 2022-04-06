@@ -1,0 +1,36 @@
+<%@ page import="com.periodicals.dao.utils.SqlConstants" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib prefix="pricetag" uri="/WEB-INF/tld/price.tld" %>
+<%
+    session.getAttribute(String.valueOf(SqlConstants.READER));
+%>
+<jsp:useBean id="magazine" type="com.periodicals.entities.Magazine"/>
+
+<div class="magazine">
+    <form action="add-subscription"  method="post">
+        <img class=magazine-image src="${magazine.imageURL}" style="width:70%" alt="${magazine.name}">
+        <h2>${magazine.name}</h2>
+        <h3><pricetag:priceTag
+                localeName = "${sessionScope.locale}"
+                price = "${magazine.price}"
+        >
+        </pricetag:priceTag></h3>
+
+        <p><strong><fmt:message key="magazine.publisher.label"/>:</strong> ${magazine.publisher}</p>
+        <p><strong><fmt:message key="magazine.publication.date.label"/>:</strong> ${magazine.publicationDate}</p>
+        <p>
+            <c:choose>
+                <c:when test="${magazine.description.length() < 100}">
+                    ${magazine.description}
+                </c:when>
+                <c:otherwise>
+                    ${fn:substring(magazine.description, 0, 100)}...
+                </c:otherwise>
+            </c:choose>
+        </p>
+
+        <c:if test="${user != null && user.roleId == SqlConstants.READER}">
+            <button type="submit" value="${magazine.name}" name="button_clicked"><fmt:message key="magazine.subscribe.button"/></button>
+        </c:if>
+    </form>
+</div>

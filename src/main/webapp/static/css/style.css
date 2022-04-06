@@ -1,0 +1,383 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #34495e;
+}
+
+
+/* header */
+.header {
+    background: #191919;
+    margin-top: 0;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+}
+.header p, .header a{
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 8px 10px;
+    text-decoration: none;
+    font-size: 17px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.header a:hover {
+    background: #2ecc71;
+    border-radius: 24px;
+    color: #f2f2f2;
+}
+
+
+
+/*redactor menu dropdown*/
+.dropbtn {
+    background-color: #191919;
+    color: #f2f2f2;
+    border: none;
+    padding: 8px 10px;
+    text-decoration: none;
+    font-size: 17px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #191919;
+    border-radius: 24px;
+}
+.dropdown-content a {
+    color: #f2f2f2;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: #2ecc71;  border-radius: 24px;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropbtn {
+    background-color: #2ecc71;
+    border-radius: 24px;
+}
+
+
+/* user input hints */
+.tooltip {
+    position: relative;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #191919;
+    color: #f2f2f2;
+    text-align: center;
+    border-radius: 24px;
+    padding: 10px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 60%;
+    margin-left: -60px;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #3498db transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    border: 2px solid #3498db;
+}
+
+
+/* universal box */
+.box{
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #191919;
+    text-align: center;
+    border-radius: 24px;
+    margin-top: -3%;
+    overflow: hidden;
+}
+.box h1, .box h2{
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.box h3, .box h4{
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+}
+.box a, .box h5, .create_magazine_wrapper a{
+    color: white;
+    font-size: small;
+    margin: 0;
+}
+.box a:hover, .create_magazine_wrapper a{
+    color: #2ecc71;
+}
+.box input[type = "text"], .box input[type = "password"]{
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+.box input[type = "text"]:focus, .box input[type = "password"]:focus{
+    width: 280px;
+    border-color: #2ecc71;
+}
+.box input[type = "submit"], .magazine button, .create_magazine_wrapper button{
+    border:0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+    overflow: hidden;
+}
+.box input[type = "submit"]:hover{
+    background: #2ecc71;
+}
+
+
+/*select language*/
+.lang-form{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* logout button */
+.logout a{
+    padding: 14px 75px;
+    border-radius: 24px;
+    transition: 0.25s;
+    text-decoration: none;
+}
+.logout a:hover{
+    background: #2ecc71;
+    color:#f2f2f2;
+}
+
+
+/* sorting */
+.select_sort{
+    display: flex;
+    background: #191919;
+    overflow: hidden;
+    margin-top: 0;
+    height: 35px;
+    width: 100%;
+    justify-content: flex-end;
+    color: white;
+}
+
+
+/*magazines*/
+.magazines-wrapper{
+    display: flex;
+    justify-content: center;
+    margin: 50px 30px 2rem;
+}
+.magazines{
+    display: grid;
+    grid-template-columns: repeat(3, 3fr);
+    gap: 5rem;
+    width: 100%;
+    margin-bottom: 2%;
+}
+.magazine{
+    background: #191919;
+    text-align: center;
+    border-radius: 24px;
+}
+.magazine h2, .magazine h3, .magazine p{
+    color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.magazine-image{
+    margin-top: 30px;
+    border-radius: 6px;
+}
+.magazine button, .create_magazine_wrapper button{
+    width: auto;
+}
+.magazine button:hover, .create_magazine_wrapper button:hover{
+    background: #2ecc71;
+}
+
+
+/*pagination*/
+.pagination {
+    background: #191919;
+    display: flex;
+    overflow: hidden;
+    margin-top: 3%;
+    height: auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+}
+.pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.pagination a:hover:not(.active), .current-page{
+    background: #2ecc71;
+    border-radius: 5px;
+}
+.disabled {
+    pointer-events: none;
+}
+
+
+/*user subscriptions*/
+table {
+    border-collapse: collapse;
+    width: 100%;
+    color: white;
+}
+tr {
+    border-bottom: 1px solid #ddd;
+    color: white;
+}
+td{
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+}
+.subscription-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    width: 625px;
+    bottom: auto;
+}
+.subscription-buttons-empty{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    width: 625px;
+    bottom: 0;
+}
+.subscription-button input[type = "submit"]{
+    border:0;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+}
+.subscription-button input[type = "submit"]:hover{
+    background: #2ecc71;
+}
+
+
+/* create magazine */
+.create_magazine_box{
+    width: 300px;
+    height: 500px;
+    overflow: scroll;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #191919;
+    text-align: center;
+    border-radius: 24px;
+    margin-top: 3%;
+    padding: 40px;
+}
+.create_magazine_box::-webkit-scrollbar {
+    display: none;
+}
+.create_magazine_wrapper input[type="text"], .create_magazine_wrapper textarea,
+.create_magazine_wrapper input[type="date"],
+.create_magazine_wrapper select{
+    border: 2px solid #3498db;
+    background: none;
+    display: block;
+    text-align: center;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+    width: auto;
+    margin: 20px auto 10px;
+}
+.create_magazine_wrapper textarea{
+    margin: 20px -10px;
+}
+.create_magazine_wrapper input[type = "date"]:focus, .create_magazine_wrapper input[type = "text"]:focus,
+.category_select:focus{
+    width: 280px;
+    border-color: #2ecc71;
+}
+.create_magazine_wrapper textarea:focus{
+    border-color: #2ecc71;
+}
+.create_magazine_wrapper h2{
+    color: white;
+}
+.category_select *{
+    border-radius: 15px;
+    background-color: #191919;
+}
+
+
+/*magazines redactor*/
+.magazines_redactor{
+    position: absolute;
+    overflow: scroll;
+    width: 800px;
+    min-height: 300px;
+    right: 0;
+    bottom: 0;
+}
+.magazines_redactor::-webkit-scrollbar {
+    display: none;
+}
