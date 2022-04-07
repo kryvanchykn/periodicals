@@ -1,65 +1,66 @@
 CREATE SCHEMA IF NOT EXISTS periodicals;
 USE periodicals;
 
-CREATE TABLE IF NOT EXISTS money (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
+CREATE TABLE IF NOT EXISTS locale (
+                                      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                      lang_name VARCHAR(10) NOT NULL,
     price_sign VARCHAR(30) NOT NULL,
-    coefficient DECIMAL(10,3) UNSIGNED NOT NULL);
+    exchange_rate DECIMAL(10,3) UNSIGNED NOT NULL);
 
-CREATE TABLE IF NOT EXISTS language (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    short_name VARCHAR(10) NOT NULL,
 
-    FOREIGN KEY (id)
-    REFERENCES money (id)
+CREATE TABLE IF NOT EXISTS category (
+                                        id INT NOT NULL AUTO_INCREMENT,
+                                        locale_id INT NOT NULL,
+                                        name VARCHAR(100) NOT NULL UNIQUE,
+    primary key (id, locale_id),
+
+    FOREIGN KEY (locale_id)
+    REFERENCES locale (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE TABLE IF NOT EXISTS category (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name_en VARCHAR(100) NOT NULL UNIQUE,
-    name_ua VARCHAR(100) NOT NULL UNIQUE);
-
 CREATE TABLE IF NOT EXISTS magazine (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    category_id INT NOT NULL,
-    price DECIMAL(10,2) UNSIGNED NOT NULL,
+                                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                        category_id INT NOT NULL,
+                                        price DECIMAL(10,2) UNSIGNED NOT NULL,
     publication_date DATE NOT NULL,
-    image_url VARCHAR(150) NULL DEFAULT NULL,
+    image_url VARCHAR(150) NOT NULL,
 
     FOREIGN KEY (category_id)
     REFERENCES category(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
+
 CREATE TABLE IF NOT EXISTS magazine_localization (
-    magazine_id INT NOT NULL,
-    language_id INT NOT NULL,
-    name VARCHAR(45) NOT NULL UNIQUE,
+                                                     magazine_id INT NOT NULL,
+                                                     locale_id INT NOT NULL,
+                                                     name VARCHAR(45) NOT NULL UNIQUE,
     description VARCHAR(500) NOT NULL,
     publisher VARCHAR(45) NOT NULL,
-    UNIQUE KEY (magazine_id, language_id),
+    UNIQUE KEY (magazine_id, locale_id),
 
     FOREIGN KEY (magazine_id)
     REFERENCES magazine (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 
-    FOREIGN KEY (language_id)
-    REFERENCES language (id)
+    FOREIGN KEY (locale_id)
+    REFERENCES locale (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
 CREATE TABLE IF NOT EXISTS role (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL DEFAULT 'reader');
+                                    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                    name VARCHAR(30) NOT NULL DEFAULT 'reader');
 
 CREATE TABLE IF NOT EXISTS user (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    login VARCHAR(25) NOT NULL UNIQUE,
+                                    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                    login VARCHAR(25) NOT NULL UNIQUE,
     password VARCHAR(250) NOT NULL,
     email VARCHAR(30) NOT NULL UNIQUE,
-    phone VARCHAR(13) NULL DEFAULT NULL UNIQUE,
+    phone VARCHAR(13) NOT NULL UNIQUE,
     balance DECIMAL(10,2) UNSIGNED NULL DEFAULT '0.00',
     role_id INT NOT NULL DEFAULT 1,
 
@@ -69,13 +70,13 @@ CREATE TABLE IF NOT EXISTS user (
     ON UPDATE CASCADE);
 
 CREATE TABLE IF NOT EXISTS subscription (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    magazine_id INT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
+                                            id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                            user_id INT NOT NULL,
+                                            magazine_id INT NOT NULL,
+                                            start_date DATE NOT NULL,
+                                            end_date DATE NOT NULL,
 
-    FOREIGN KEY (user_id)
+                                            FOREIGN KEY (user_id)
     REFERENCES user (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
@@ -85,26 +86,23 @@ CREATE TABLE IF NOT EXISTS subscription (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-insert into money values(1, "&#36", "1");
-insert into money values(2, "&#8372", "0.05");
 
-insert into language values(1, "EN");
-insert into language values(2, "UA");
+insert into locale values(1, "EN", "&#36", "1");
+insert into locale values(2, "UA", "&#8372", "0.05");
 
-insert into role values(1, "reader");
-insert into role values(2, "blocked_reader");
-insert into role values(3, "admin");
 
-insert into user values(1, "login1", "bc547750b92797f955b36112cc9bdd5cddf7d0862151d03a167ada8995aa24a9ad24610b36a68bc02da24141ee51670aea13ed6469099a4453f335cb239db5da", "emaillogin1@gmail.com", "0971111111", 100.00, 1);
-insert into user values(2, "login2", "92a891f888e79d1c2e8b82663c0f37cc6d61466c508ec62b8132588afe354712b20bb75429aa20aa3ab7cfcc58836c734306b43efd368080a2250831bf7f363f", "emaillogin2@gmail.com", "0972222222", 00.00, 2);
-insert into user values(3, "admin1", "58b5444cf1b6253a4317fe12daff411a78bda0a95279b1d5768ebf5ca60829e78da944e8a9160a0b6d428cb213e813525a72650dac67b88879394ff624da482f", "emailadmin1@gmail.com", "0973333333", 00.00, 3);
-insert into user values(4, "admin2", "661bb43140229ad4dc3e762e7bdd68cc14bb9093c158c386bd989fea807acd9bd7f805ca4736b870b6571594d0d8fcfc57b98431143dfb770e083fa9be89bc72", "emailadmin2@gmail.com", "0974444444", 00.00, 3);
+insert into category values(1, 1, "Fashion");
+insert into category values(2, 1, "Beauty");
+insert into category values(3, 1, "Business");
+insert into category values(4, 1, "Music");
+insert into category values(5, 1, "Politics");
 
-insert into category values(1, "Fashion", "Мода");
-insert into category values(2, "Beauty", "Краса");
-insert into category values(3, "Business", "Бізнес");
-insert into category values(4, "Music", "Музика");
-insert into category values(5, "Politics", "Політика");
+insert into category values(1, 2, "Мода");
+insert into category values(2, 2, "Краса");
+insert into category values(3, 2, "Бізнес");
+insert into category values(4, 2, "Музика");
+insert into category values(5, 2, "Політика");
+
 
 insert into magazine values(1, 1, 5, "2019-11-11", "https://vogue.ua/cache/inline_990x/uploads/article-inline/ce8/1cf/a01/2021_osnovnaya_6177a011cfce8.jpeg");
 insert into magazine values(2, 2, 7.50, "2020-10-02", "https://images.ua.prom.st/2660272410_w640_h640_zhurnal-cosmopolitan-10.jpg");
@@ -113,6 +111,7 @@ insert into magazine values(4, 3, 10, "2019-01-01", "https://images.squarespace-
 insert into magazine values(5, 4, 7.25, "2021-11-20", "https://cdn.shopify.com/s/files/1/2096/4023/products/FD6iWTRXEAgZ5qJ.jpg?v=1636639553");
 insert into magazine values(6, 1, 8, "2022-01-13", "https://vanityfair.blob.core.windows.net/vanityfair20210401thumbnails/Covers/0x600/20210401.jpg");
 insert into magazine values(7, 5, 9.5, "2022-02-13", "https://d7-invdn-com.investing.com/content/pic95f912935f0cf44cfd25bf2c622d352d.jpg");
+
 
 insert into magazine_localization values(1, 1, "Vogue", "Vogue is an American monthly fashion and lifestyle magazine that covers many topics, including haute couture fashion, beauty, culture, living, and runway. Based at One World Trade Center in the Financial District of Lower Manhattan, Vogue began as a weekly newspaper in 1892 before becoming a monthly magazine years later. Since starting up in 1892, Vogue has featured numerous actors, musicians, models, athletes, and other prominent celebrities.", "Condé Nast");
 insert into magazine_localization values(2, 1, "Cosmopolitan", "Cosmopolitan is an American monthly fashion and entertainment magazine for women, first published based in New York City in March 1886 as a family magazine; it was later transformed into a literary magazine and, since 1965, has become a women's magazine. It was formerly titled The Cosmopolitan. Cosmopolitan magazine is one of the best-selling magazines and is directed mainly towards a female audience. Jessica Pels is the editor-in-chief of Cosmopolitan magazine.", "Hearst Corporation");
@@ -129,6 +128,18 @@ insert into magazine_localization values(4, 2, "Форбс", "Форбс — а�
 insert into magazine_localization values(5, 2, "Роллінґ Стоун", "Rolling Stone — американський журнал, присвячений музиці й поп-культурі. Виходить двічі на місяць. Наклад — приблизно півтора мільйони примірників. Випуски Rolling Stone, як правило, містять музичні та кіно рецензії, історії й фотографії знаменитостей, інформацію про нових артистів, поради щодо моди і статті про політику. Сьогодні журнал має кілька міжнародних версій.", "Янн Веннер");
 insert into magazine_localization values(6, 2, "Венеті Фейр", "Ве́неті Фейр або Ва́ниті Фейр — американський журнал, присвячений політиці, моді та іншим аспектам масової культури. Видається компанією «Конде Наст» (Condé Nast Publications).", "Конде Наст");
 insert into magazine_localization values(7, 2, "Економіст", "Економіст — впливовий щотижневий англомовний журнал. Публікується в Англії з 1843 року. 2006 тираж перевищив мільйон екземплярів, більше половини яких була продана в Північній Америці. Через глобальну орієнтацію, «Економіст» не вважається виключно британським виданням. Традиційно видання вважає себе газетою і не підписує публікації. Основні теми, що освітлюються журналом, — політичні події, міжнародні відносини, фінансові, економічні і ділові новини, а також наука і культура.", "Економіст Груп");
+
+
+insert into role values(1, "reader");
+insert into role values(2, "blocked_reader");
+insert into role values(3, "admin");
+
+
+insert into user values(1, "login1", "bc547750b92797f955b36112cc9bdd5cddf7d0862151d03a167ada8995aa24a9ad24610b36a68bc02da24141ee51670aea13ed6469099a4453f335cb239db5da", "emaillogin1@gmail.com", "0971111111", 100.00, 1);
+insert into user values(2, "login2", "92a891f888e79d1c2e8b82663c0f37cc6d61466c508ec62b8132588afe354712b20bb75429aa20aa3ab7cfcc58836c734306b43efd368080a2250831bf7f363f", "emaillogin2@gmail.com", "0972222222", 00.00, 2);
+insert into user values(3, "admin1", "58b5444cf1b6253a4317fe12daff411a78bda0a95279b1d5768ebf5ca60829e78da944e8a9160a0b6d428cb213e813525a72650dac67b88879394ff624da482f", "emailadmin1@gmail.com", "0973333333", 00.00, 3);
+insert into user values(4, "admin2", "661bb43140229ad4dc3e762e7bdd68cc14bb9093c158c386bd989fea807acd9bd7f805ca4736b870b6571594d0d8fcfc57b98431143dfb770e083fa9be89bc72", "emailadmin2@gmail.com", "0974444444", 00.00, 3);
+
 
 insert into subscription values(1, 1, 1, "2021-10-10", "2021-11-10");
 insert into subscription values(2, 1, 2, "2021-12-24", "2022-01-24");
