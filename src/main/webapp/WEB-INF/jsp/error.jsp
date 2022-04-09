@@ -23,7 +23,9 @@
         <h2><fmt:message key="error.page.wrong.label"/></h2>
         <h3><fmt:message key="error.page.try.again.label"/></h3>
         <h4><fmt:message key="${sessionScope.errorMessage}"/></h4>
-        <h4>${sessionScope.errorMessage}</h4>
+        <%
+            session.removeAttribute("errorMessage");
+        %>
     </div>
 
 </body>

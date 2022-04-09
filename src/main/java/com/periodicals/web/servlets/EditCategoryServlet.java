@@ -49,7 +49,7 @@ public class EditCategoryServlet extends HttpServlet {
 
         } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
-            req.getSession().setAttribute("errorMessage", e.getMessage());
+            session.setAttribute("errorMessage", e.getMessage());
             throw new AppException(e);
         }
 
