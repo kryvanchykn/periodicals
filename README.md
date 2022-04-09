@@ -1,5 +1,5 @@
-#Periodicals
-##Java web application. Epam final project.
+# Periodicals
+## Java web application. Epam final project.
 
 There is a catalog(list of magazines) in the system, which are grouped by category.
 The reader(authorized user) can subscribe to one or more magazines. There is a possibility to:
@@ -19,4 +19,4 @@ The system administrator has the rights to:
 
 ## Database Schema
 
-<p align="center"><img src="https://imgur.com/a/VVsa1lh.png" width="800" alt="database schema"></p>
+![periodicals_db](https://user-images.githubusercontent.com/103146175/162561684-6590048c-18ae-412a-8049-436433fe17c4.jpg)
